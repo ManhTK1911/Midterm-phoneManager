@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete Phone</title>
+</head>
+<body>
+<fieldset style="width: fit-content; height: fit-content">
+    <legend><h1 style="color: red">Delete Phone</h1></legend>
+    <h2>Are you sure???</h2>
+    <p>
+        <button><a href="/books">Phone List</a></button>
+    </p>
+    <form th:action="@{/delete-phone}" th:object="${phone}" method="post">
+        <input th:type="hidden" name="id" th:field="*{id}">
+        <table>
+            <tr>
+                <td>Name</td>
+                <td th:text="${phone.name}"></td>
+            </tr>
+            <tr>
+                <td>Date of Purchase</td>
+                <td th:text="${phone.dateOfPurchase}"></td>
+            </tr>
+            <tr>
+                <td>Price</td>
+                <td th:text="${phone.price}"></td>
+            </tr>
+            <tr>
+                <td>Description</td>
+                <td th:text="${phone.description}"></td>
+            </tr>
+            <tr>
+                <td>Category</td>
+                <td th:text="${phone.getCategory().getName()}"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" style="color: blue">Delete Phone</td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+</body>
+</html>

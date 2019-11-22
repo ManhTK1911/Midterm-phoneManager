@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Phone</title>
+</head>
+<style>
+    button {
+        text-align: center;
+
+    }
+    table {
+        margin: auto;
+        border: 2px solid black;
+        margin-left: 30px;
+    }
+    tr {
+        border: 2px solid black;
+        margin: auto;
+        padding: 15px;
+    }
+    td {
+        margin: auto;
+        border: 2px solid black;
+        text-align: center;
+        padding: 15px;
+        font-weight: bolder;
+    }
+    th {
+        color: chocolate;
+    }
+    form{
+        margin-top: 15px;
+    }
+
+    #so {
+        margin-left: 43px
+    }
+</style>
+<body>
+<fieldset style="width: fit-content; height: fit-content">
+    <legend>Phone!</legend>
+    <p><button><a href="/create-phone">Create new phone</a></button></p>
+    <form action="/searchByCategory" onchange="this.submit()">
+        <a style="color: darkred">Search by Category</a>
+        <select name="searchCategory">
+            <option value="-1">All</option>
+            <option th:each="c:${categories}" th:text="${c.name}" th:value="${c.getId()}" th:selected="(${c.id} == ${searchCategory})"></option>
+        </select>
+    </form>
+    <form action="/sortByPrice" onchange="this.submit()">
+        <a style="color: darkred">Sort by Price</a>
+        <select id="so" name="sortDirection2">
+            <option value="no" th:selected="(${sortDirection2} == 'no')">All</option>
+            <option value="asc" th:selected="(${sortDirection2} == 'asc')">ASC</option>
+            <option value="desc" th:selected="(${sortDirection2} == 'desc')">DESC</option>
+        </select>
+    </form>
+    <br/>
+    <table border="1">
+        <tr>
+            <th>Name</th>
+            <th>Date of Purchase</th>
+            <th>Price</th>
+            <th>Description</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            <th>Detail</th>
+        </tr>
+        <th:block th:each="phone: ${phones}">
+        <tr>
+            <td th:text="${phone.name}"></td>
+            <td th:text="${phone.dateOfPurchase}"></td>
+            <td th:text="${phone.price}"></td>
+            <td th:text="${phone.description}"></td>
+            <td th:text="${phone.getCategory().getName()}"></td>
+            <td><a th:href="@{/edit-phone/__${phone.id}__ }">Edit</a></td>
+            <td><a th:href="@{/delete-phone/__${phone.id}__ }">Delete</a></td>
+            <td><a th:href="@{/detail-phone/__${phone.id}__ }">Detail</a></td>
+        </tr>
+        </th:block>
+        <div>
+            <a th:href="@{'/phones'(page=${phones.number - 1})}" th:if="${phones.hasPrevious()}">Previous</a>
+            <span th:text="${phones.number + 1}"></span>/<span th:text="${phones.totalPages}"></span>
+            <a th:href="@{'/phones'(page=${phones.number + 1})}" th:if="${phones.hasNext()}">Next</a>
+        </div>
+    </table>
+</fieldset>
+</body>
+</html>
